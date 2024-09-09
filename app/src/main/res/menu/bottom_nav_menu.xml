@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/img_word"
+        android:title="@string/words" />
+    <item
+        android:id="@+id/learnedFragment"
+        android:icon="@drawable/img_learned"
+        android:title="@string/learned" />
+</menu>
