@@ -29,5 +29,20 @@
         android:id="@+id/learnedFragment"
         android:name="com.cenkeraydin.wordwave.ui.LearnedFragment"
         android:label="fragment_learned"
-        tools:layout="@layout/fragment_learned" />
+        tools:layout="@layout/fragment_learned" >
+        <action
+            android:id="@+id/action_learnedFragment_to_wordPopupLearnedDialog"
+            app:destination="@id/wordPopupLearnedDialog" />
+
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/wordPopupLearnedDialog"
+        android:name="com.cenkeraydin.wordwave.ui.PopupLearnedFragment"
+        tools:layout="@layout/fragment_popup_learned">
+        <argument
+            android:name="word"
+            app:argType="string" />
+    </dialog>
 </navigation>
