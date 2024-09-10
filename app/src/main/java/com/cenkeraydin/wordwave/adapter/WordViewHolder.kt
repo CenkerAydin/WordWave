@@ -2,7 +2,7 @@ package com.cenkeraydin.wordwave.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.cenkeraydin.wordwave.Word
+import com.cenkeraydin.wordwave.data.Word
 import com.cenkeraydin.wordwave.databinding.ItemLayoutWordListBinding
 
 class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
