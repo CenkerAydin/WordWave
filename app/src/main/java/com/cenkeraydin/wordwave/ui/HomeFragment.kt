@@ -2,10 +2,13 @@ package com.cenkeraydin.wordwave.ui
 
 
 import android.content.Context
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -16,7 +19,7 @@ import com.cenkeraydin.wordwave.R
 import com.cenkeraydin.wordwave.adapter.WordListAdapter
 import com.cenkeraydin.wordwave.data.Word
 import com.cenkeraydin.wordwave.databinding.FragmentHomeBinding
-import kotlin.random.Random
+import com.cenkeraydin.wordwave.extension.WordList
 
 
 class HomeFragment : Fragment() {
@@ -27,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var wordAdapter: WordListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var lastOrder: List<String> = emptyList()
+    private lateinit var textView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +50,7 @@ class HomeFragment : Fragment() {
         setFragmentResultListener("learnedWord") { _, bundle ->
             val learnedWord = bundle.getString("word")
             learnedWord?.let { word ->
-                wordList.removeAll { it.word ==word }
+                wordList.removeAll { it.english ==word }
                 wordAdapter.notifyDataSetChanged()
             }
         }
@@ -56,9 +60,16 @@ class HomeFragment : Fragment() {
             shuffleWordList()
             swipeRefreshLayout.isRefreshing = false
         }
+        textView = binding.tvAppName
+        val textShader: Shader = LinearGradient(
+            0f, 0f, 0f, textView.textSize,
+            intArrayOf(
+                resources.getColor(R.color.colorStart, null),
+                resources.getColor(R.color.colorEnd, null)
+            ), null, Shader.TileMode.CLAMP
+        )
 
-
-
+        textView.paint.shader = textShader
 
     }
 
@@ -66,27 +77,21 @@ class HomeFragment : Fragment() {
     private fun shuffleWordList() {
         var newOrder: List<String>
         do {
-            newOrder = wordList.map { it.word }.shuffled()
+            newOrder = wordList.map { it.english }.shuffled()
         } while (newOrder == lastOrder)
         lastOrder = newOrder
-        wordList.sortBy { newOrder.indexOf(it.word) }
+        wordList.sortBy { newOrder.indexOf(it.english) }
         wordAdapter.notifyDataSetChanged()
     }
 
     private fun initializeWordList() {
-        wordList = arrayListOf(
-            Word("Learn", "Öğrenmek", false),
-            Word("banana", "muz", false),
-            Word("cat", "kedi", false),
-            Word("de", "kedi", false),
-            Word("e", "kedi", false),
-            Word("c", "kedi", false)
-
-        )
+        val context = requireContext()
+        wordList = WordList.getWordsList(context) as ArrayList<Word>
     }
+
     private fun filterLearnedWords() {
         val learnedWords = getLearnedWords()
-        wordList = wordList.filter { word -> !learnedWords.contains(word.word) } as ArrayList<Word>
+        wordList = wordList.filter { word -> !learnedWords.contains(word.english) } as ArrayList<Word>
     }
 
     private fun getLearnedWords(): List<String> {
@@ -97,8 +102,8 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         wordAdapter = WordListAdapter(wordList) { selectedWord ->
             val bundle = Bundle().apply {
-                putString("word", selectedWord.word)
-                putString("meaning", selectedWord.definition)
+                putString("word", selectedWord.english)
+                putString("meaning", selectedWord.turkish)
             }
             findNavController().navigate(R.id.wordPopupDialog, bundle)
         }
