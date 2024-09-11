@@ -1,16 +1,16 @@
 package com.cenkeraydin.wordwave.extension
 
 import android.content.Context
-import android.util.Log
 import com.cenkeraydin.wordwave.data.Word
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
+import java.util.Locale
 
 class WordList {
     companion object{
-        fun loadJSONFromAsset(context: Context): String? {
+        private fun loadJSONFromAsset(context: Context): String? {
             return try {
                 val inputStream = context.assets.open("words.json")
                 val size = inputStream.available()
@@ -24,12 +24,8 @@ class WordList {
             }
         }
         fun getWordsList(context: Context): List<Word> {
-            val jsonString = loadJSONFromAsset(context)
+            val jsonString = loadJSONFromAsset(context) ?: return emptyList()
 
-            if (jsonString == null) {
-                Log.e("HomeFragment", "JSON dosyası yüklenemedi!")
-                return emptyList()  // Eğer JSON null ise boş liste döndürüyoruz
-            }
             val gson = Gson()
             // Önce ana JSON nesnesini alıyoruz
             val jsonObject = gson.fromJson(jsonString, JsonObject::class.java)
@@ -39,7 +35,22 @@ class WordList {
 
             // Son olarak diziyi Word listesine dönüştürüyoruz
             val listType = object : TypeToken<List<Word>>() {}.type
-            return gson.fromJson(wordsJsonArray, listType)
+            val wordsList: List<Word> = gson.fromJson(wordsJsonArray, listType)
+
+            val capitalizedWordsList = wordsList.map { word ->
+                Word(
+                    word.english.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+                        else it.toString()
+                    },
+                    word.turkish.replaceFirstChar {
+                        if (it.isLowerCase()) it.titlecase(Locale.getDefault())
+                        else it.toString()
+                    }
+                )
+            }
+
+            return capitalizedWordsList
         }
     }
 
