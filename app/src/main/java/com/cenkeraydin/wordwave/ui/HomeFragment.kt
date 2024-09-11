@@ -11,10 +11,12 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.cenkeraydin.wordwave.R
 import com.cenkeraydin.wordwave.adapter.WordListAdapter
 import com.cenkeraydin.wordwave.data.Word
 import com.cenkeraydin.wordwave.databinding.FragmentHomeBinding
+import kotlin.random.Random
 
 
 class HomeFragment : Fragment() {
@@ -23,6 +25,8 @@ class HomeFragment : Fragment() {
     private lateinit var rvWordList: RecyclerView
     private lateinit var wordList: ArrayList<Word>
     private lateinit var wordAdapter: WordListAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var lastOrder: List<String> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +51,28 @@ class HomeFragment : Fragment() {
             }
         }
 
+        swipeRefreshLayout = binding.swipeRefresh
+        swipeRefreshLayout.setOnRefreshListener {
+            shuffleWordList()
+            swipeRefreshLayout.isRefreshing = false
+        }
+
+
+
 
     }
+
+
+    private fun shuffleWordList() {
+        var newOrder: List<String>
+        do {
+            newOrder = wordList.map { it.word }.shuffled()
+        } while (newOrder == lastOrder)
+        lastOrder = newOrder
+        wordList.sortBy { newOrder.indexOf(it.word) }
+        wordAdapter.notifyDataSetChanged()
+    }
+
     private fun initializeWordList() {
         wordList = arrayListOf(
             Word("Learn", "Öğrenmek", false),
