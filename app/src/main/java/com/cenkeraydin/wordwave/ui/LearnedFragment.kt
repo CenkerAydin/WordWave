@@ -1,11 +1,14 @@
 package com.cenkeraydin.wordwave.ui
 
 import android.content.Context
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +26,7 @@ class LearnedFragment : Fragment() {
     private lateinit var rvLearnedWordList: RecyclerView
     private lateinit var wordList: ArrayList<Word>
     private lateinit var wordAdapter: LearnedListAdapter
-
+    private lateinit var textView: TextView
 
 
 
@@ -57,6 +60,17 @@ class LearnedFragment : Fragment() {
         rvLearnedWordList.adapter = wordAdapter
         rvLearnedWordList.layoutManager = LinearLayoutManager(context)
 
+        textView = binding.tvLearnedWords
+        val textShader: Shader = LinearGradient(
+            0f, 0f, 0f, textView.textSize,
+            intArrayOf(
+                resources.getColor(R.color.colorStart, null),
+                resources.getColor(R.color.colorEnd, null)
+            ), null, Shader.TileMode.CLAMP
+        )
+
+        textView.paint.shader = textShader
+
 
     }
 
@@ -65,6 +79,7 @@ class LearnedFragment : Fragment() {
         val learnedWords =  loadLearnedWords()
         wordList = wordList.filter { word -> learnedWords.contains(word.english) } as ArrayList<Word>
     }
+
     private fun loadLearnedWords() : List<String> {
         val sharedPreferences =
             requireActivity().getSharedPreferences("learnedWords", Context.MODE_PRIVATE)
