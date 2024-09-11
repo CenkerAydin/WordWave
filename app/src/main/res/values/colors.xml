@@ -35,5 +35,6 @@
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
 
-
+    <color name="colorStart">#2183B3</color>
+    <color name="colorEnd">#F4511E</color>
 </resources>
