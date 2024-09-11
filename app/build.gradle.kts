@@ -50,6 +50,7 @@ dependencies {
     implementation (libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.swiperefreshlayout)
     implementation (libs.gson)
+    implementation (libs.lottie)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
