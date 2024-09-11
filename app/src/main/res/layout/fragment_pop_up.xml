@@ -10,7 +10,7 @@
         android:id="@+id/textViewWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Word"
+        android:text="@string/word"
         android:textSize="18sp"
         android:layout_gravity="center" />
 
@@ -18,6 +18,6 @@
         android:id="@+id/buttonLearned"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Learned"
+        android:text="@string/learned"
         android:layout_gravity="center" />
 </LinearLayout>
