@@ -27,13 +27,11 @@ class WordList {
             val jsonString = loadJSONFromAsset(context) ?: return emptyList()
 
             val gson = Gson()
-            // Önce ana JSON nesnesini alıyoruz
+
             val jsonObject = gson.fromJson(jsonString, JsonObject::class.java)
 
-            // Sonrasında "words" anahtarındaki diziye ulaşıyoruz
             val wordsJsonArray = jsonObject.getAsJsonArray("words")
 
-            // Son olarak diziyi Word listesine dönüştürüyoruz
             val listType = object : TypeToken<List<Word>>() {}.type
             val wordsList: List<Word> = gson.fromJson(wordsJsonArray, listType)
 

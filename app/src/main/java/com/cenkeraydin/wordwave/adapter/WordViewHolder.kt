@@ -10,8 +10,8 @@ class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val binding = ItemLayoutWordListBinding.bind(itemView)
 
     fun bind(word: Word) {
-        binding.tvWord.text = word.word
-        binding.tvMeaning.text = word.definition
+        binding.tvWord.text = word.english
+        binding.tvMeaning.text = word.turkish
     }
 
 
