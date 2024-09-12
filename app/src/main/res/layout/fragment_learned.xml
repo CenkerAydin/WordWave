@@ -29,6 +29,7 @@
         android:id="@+id/rvLearnedWordList"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layoutAnimation="@anim/layout_animation"
         app:layout_constraintTop_toBottomOf="@+id/tvLearnedWords"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
