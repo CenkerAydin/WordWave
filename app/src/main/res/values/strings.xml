@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WordWave</string>
+    <string name="words">Words</string>
+    <string name="learned">Learned</string>
+    <string name="word">Word</string>
+    <string name="unlearned">Unlearned</string>
+    <string name="learned_words">Learned Words</string>
 </resources>
