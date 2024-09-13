@@ -1,6 +1,7 @@
 package com.cenkeraydin.wordwave.ui
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -40,6 +41,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -60,20 +62,13 @@ class HomeFragment : Fragment() {
             shuffleWordList()
             swipeRefreshLayout.isRefreshing = false
         }
-        textView = binding.tvAppName
-        val textShader: Shader = LinearGradient(
-            0f, 0f, 0f, textView.textSize,
-            intArrayOf(
-                resources.getColor(R.color.colorStart, null),
-                resources.getColor(R.color.colorEnd, null)
-            ), null, Shader.TileMode.CLAMP
-        )
 
-        textView.paint.shader = textShader
+        setupGradientText()
 
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun shuffleWordList() {
         var newOrder: List<String>
         do {
@@ -111,6 +106,19 @@ class HomeFragment : Fragment() {
         rvWordList = binding.rvWordList
         rvWordList.adapter = wordAdapter
         rvWordList.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun setupGradientText(){
+        textView = binding.tvAppName
+        val textShader: Shader = LinearGradient(
+            0f, 0f, 0f, textView.textSize,
+            intArrayOf(
+                resources.getColor(R.color.colorStart, null),
+                resources.getColor(R.color.colorEnd, null)
+            ), null, Shader.TileMode.CLAMP
+        )
+
+        textView.paint.shader = textShader
     }
 
 

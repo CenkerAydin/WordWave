@@ -1,5 +1,6 @@
 package com.cenkeraydin.wordwave.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -38,15 +39,12 @@ class LearnedFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         filterLearnedWords()
-        wordAdapter = LearnedListAdapter(wordList){ selectedWord ->
-            val bundle = Bundle()
-            bundle.putString("word", selectedWord.english)
-            findNavController().navigate(R.id.action_learnedFragment_to_wordPopupLearnedDialog, bundle)
-        }
+        setupRecyclerView()
 
         setFragmentResultListener("learnedWord") { _, bundle ->
             val learnedWord = bundle.getString("word")
@@ -56,22 +54,8 @@ class LearnedFragment : Fragment() {
             }
         }
 
-        rvLearnedWordList = binding.rvLearnedWordList
-        rvLearnedWordList.adapter = wordAdapter
-        rvLearnedWordList.layoutManager = LinearLayoutManager(context)
 
-        textView = binding.tvLearnedWords
-        val textShader: Shader = LinearGradient(
-            0f, 0f, 0f, textView.textSize,
-            intArrayOf(
-                resources.getColor(R.color.colorStart, null),
-                resources.getColor(R.color.colorEnd, null)
-            ), null, Shader.TileMode.CLAMP
-        )
-
-        textView.paint.shader = textShader
-
-
+        setupGradientTextView()
     }
 
     private fun filterLearnedWords() {
@@ -86,6 +70,30 @@ class LearnedFragment : Fragment() {
         val learnedWords = sharedPreferences.all.keys.toList()
 
         return learnedWords
+    }
+
+    private fun setupRecyclerView() {
+        wordAdapter = LearnedListAdapter(wordList){ selectedWord ->
+            val bundle = Bundle()
+            bundle.putString("word", selectedWord.english)
+            findNavController().navigate(R.id.action_learnedFragment_to_wordPopupLearnedDialog, bundle)
+        }
+
+        rvLearnedWordList = binding.rvLearnedWordList
+        rvLearnedWordList.adapter = wordAdapter
+        rvLearnedWordList.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun setupGradientTextView() {
+        textView = binding.tvLearnedWords
+        val textShader: Shader = LinearGradient(
+            0f, 0f, 0f, textView.textSize,
+            intArrayOf(
+                resources.getColor(R.color.colorStart, null),
+                resources.getColor(R.color.colorEnd, null)
+            ), null, Shader.TileMode.CLAMP
+        )
+        textView.paint.shader = textShader
     }
 
 
