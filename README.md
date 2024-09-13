@@ -13,7 +13,9 @@ WordWave is an Android application designed to help users learn words in multipl
 
 ## Video
 
-https://github.com/user-attachments/assets/b4fbecc7-ebe2-492e-8b51-f9871df13b6a
+
+https://github.com/user-attachments/assets/222aa80d-b921-421c-9ec8-e021603f02c9
+
 
 
 ## Tech Stack
