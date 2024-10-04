@@ -8,4 +8,11 @@
         android:id="@+id/learnedFragment"
         android:icon="@drawable/img_learned"
         android:title="@string/learned" />
+
+
+    <item
+        android:id="@+id/profileFragment"
+        android:icon="@drawable/profile_img"
+        android:title="@string/profile" />
+
 </menu>
